@@ -1,0 +1,1375 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0",
+        "title": "API Faturação",
+        "description": "API do sistema de faturação",
+        "contact": {
+            "name": "NC Software House",
+            "email": "info@ncnegocios.co.mz",
+            "url": "http://ncsoftware.co.mz/"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/",
+            "description": "Servidor de desenvolvimento e testes"
+        },
+        {
+            "url": "http://localhost:3001/",
+            "description": "Servidor de produção"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Autenticação"
+        },
+        {
+            "name": "Usuários"
+        },
+        {
+            "name": "Empresas"
+        },
+        {
+            "name": "Anexos"
+        },
+        {
+            "name": "Clientes"
+        },
+        {
+            "name": "Permissão de Usuários"
+        }
+    ],
+    "paths": {
+        "permihenticate": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticação do usuário no sistema",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/Auth"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Autenticado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Desconectando o usuário autenticado do sistema."
+            }
+        },
+        "/usuarios": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna todos os usuários cadastrados.",
+                "description": "<h3> Descrição: </h3> Listando todas Usuários cadastrados",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "description": "Regista um usuário no sistema.",
+                "content": {
+                    "application/json": {
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Usuario"
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Usuario": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Usuario"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario Cadastrado com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoC"
+                                }
+                            },
+                            "headers": {
+                                "setCookies": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar Usuario!.",
+                        "content": {
+                            "application/,json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/{id}": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna os dados do usuário com o ID passado pelo parâmetro.",
+                "description": "Lista os Usuarios  com base no ID passado pelo parâmetro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Listando Usuarios em Função do Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Usuários"
+                ],
+                "description": "<h3> Descrição: </h3> Atualizando os dados da Usuario em função do Id.",
+                "requestBody": {
+                    "description": "Actualização dos Usuarios.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/DadoEmpresa"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id do Usuario que será actualizado",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para Actualizar Usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Dados_Usuario": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/DadoEmpresa"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do Usuario Actualizados com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoA"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Actualizar Usuario!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Usuários"
+                ],
+                "description": "Apaga os dados do usuário com o ID passado pelo parâmetro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id do Usuario que será apagado",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do Usuario Apagados com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoD"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Apagar Usuario!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/estado/:estado": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna todos os usuários com o estado passado pelo parâmetro.",
+                "description": "Lista os Usuarios  com base no Estado passado pelo parâmetro.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "estado",
+                        "in": "path",
+                        "description": "Listando Usuarios em Função do Estado",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Usuarios!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/:id/atualizar-estado": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "description": "<h3> Descrição: </h3> Atualizando o Estado do Usuario em função do Id.",
+                "requestBody": {
+                    "description": "Actualização do Estado do Usuario.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/Estado"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id do Usuario que será actualizado",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para Actualizar Usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Estado_Usuario": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Estado"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estado do Usuario Actualizado com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoA"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Actualizar Estado do Usuario!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/usuarios/avatar/{id}": {
+            "get": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Retorna a imagem do usuário passado por ID."
+            }
+        },
+        "/empresas": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Listando todas empresas registadas.",
+                "description": "<h3> Descrição: </h3> Listando todas empresas registadas",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Empresas!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Empresa"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Empresas!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Empresas"
+                ],
+                "description": "<h3> Descrição: </h3> Cadastro das empresas.",
+                "requestBody": {
+                    "description": "Cadastro das empresas.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/Empresa"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Empresa": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Empresa"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Empresa Cadastrada com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoE"
+                                }
+                            },
+                            "headers": {
+                                "setCookies": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar Empresa!.",
+                        "content": {
+                            "application/,json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/empresas/:id": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Retornando dados da empresa passada pelo ID.",
+                "description": "<h3> Descrição: </h3> Atualizando os dados da empresa.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Listando empresas em Função do Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Empresas!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Empresa"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Empresas!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Empresas"
+                ],
+                "description": "<h3> Descrição: </h3> Atualizando os dados da empresa em função do Id.",
+                "requestBody": {
+                    "description": "Actualização das empresas.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/DadoEmpresa"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id da empresa que será actualizada",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para Actualizar Empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Dados_Empresa": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/DadoEmpresa"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados da Empresa Actualizados com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoA"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Actualizar Empresa!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/anexo": {
+            "post": {
+                "tags": [
+                    "Anexos"
+                ],
+                "summary": "Salvando anexos relacionados com a empresa."
+            }
+        },
+        "/clientes": {
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Rota para cadastro de clientes",
+                "description": "<h3> Descrição : </h3> Cadastrando Clientes",
+                "content": {
+                    "application/json": {
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Cliente"
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Cliente": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Cliente"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cliente Cadastrado com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoC"
+                                }
+                            },
+                            "headers": {
+                                "setCookies": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao cadastrar Cliente!.",
+                        "content": {
+                            "application/,json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Rota para listagem de Clientes",
+                "description": "<h3> Descrição: </h3> Listando todos Clientes registados",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Clientes!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Cliente"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Clientes!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/clientes/:id": {
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Rota para actualizar clientes em função do Id.",
+                "description": "<h3> Descrição: </h3> Atualizando os dados do Cliente em função do Id.",
+                "requestBody": {
+                    "description": "Dados do Cliente.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/DadoEmpresa"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id da Cliente que será actualizado",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para Actualizar Cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Dados_Cliente": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/DadoEmpresa"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do Cliente Actualizados com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoA"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Actualizar Cliente!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/apagarClientes/:id": {
+            "delete": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Rota para apagar clientes em função do Id.",
+                "description": "<h3> Descrição: </h3> Apagando Cliente em função do Id.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "O id da Cliente que será Apagado",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do Cliente Apagados com sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SucessoD"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Apagar Cliente!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/cliente/:id": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Rota para Listar clientes em função do Id.",
+                "description": "<h3> Descrição: </h3> Listando Clientes em Função do Id.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Listando Clientes em Função do Id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso ao listar Clientes!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Cliente"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Listar Clientes!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                },
+                "400": {
+                    "description": "Erro ao Listar Empresas!.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Erro"
+                            }
+                        }
+                    },
+                    "headers": {
+                        "setCookies": {}
+                    }
+                }
+            }
+        },
+        "/permissoes-usuario": {
+            "post": {
+                "tags": [
+                    "Permissão de Usuários"
+                ],
+                "summary": "Rota para adicionar Permissão de Usuários",
+                "description": "Atribuindo Permissões para os usuários",
+                "requestBody": {
+                    "description": "Cadastro das empresas.",
+                    "content": {
+                        "application/json": {
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/AddPermission"
+                            }
+                        }
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Usuário Permissão",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Usuario_Permissao": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/AddPermission"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Permissão de Usuário atribuida com Sucesso!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Sucesso"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Erro ao Atribuir Permissões ao Usuário!.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/Erro"
+                                }
+                            }
+                        },
+                        "headers": {
+                            "setCookies": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "cookieAuth": {
+                "type": "apiKey",
+                "in": "cookie",
+                "name": "_token"
+            }
+        }
+    },
+    "security": {
+        "cookieAuth": []
+    },
+    "definitions": {
+        "AddPermission": {
+            "type": "object",
+            "properties": {
+                "permissaoId": {
+                    "type": "integer",
+                    "example": 11
+                },
+                "usuarioId": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "Usuario": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string",
+                    "example": "Xiaomi"
+                },
+                "apelido": {
+                    "type": "string",
+                    "example": "Redmi"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "teste@smail.com"
+                },
+                "contacto1": {
+                    "type": "string",
+                    "example": "123456789"
+                },
+                "contacto2": {
+                    "type": "string",
+                    "example": "-"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "$2a$10$cm/vgLrtOqD.Wb8pGt9u9u9US.iWKzFonT4jWgsrOjtUKOPj/q9TK"
+                },
+                "empresa": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                }
+            }
+        },
+        "DadoEmpresa": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "mozal@yahoo.com"
+                }
+            }
+        },
+        "Estado": {
+            "type": "object",
+            "properties": {
+                "estado": {
+                    "type": "intenger",
+                    "example": "1"
+                }
+            }
+        },
+        "Sucesso": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Permissão Adicionada com Sucesso!"
+                }
+            }
+        },
+        "SucessoE": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Empresa Adicionada com Sucesso!"
+                }
+            }
+        },
+        "SucessoA": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Dados actualizados com Sucesso!"
+                }
+            }
+        },
+        "SucessoD": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Apagado com Sucesso!"
+                }
+            }
+        },
+        "SucessoC": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Cliente Cadastrado com Sucesso!"
+                }
+            }
+        },
+        "Erro": {
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Erro!"
+                }
+            }
+        },
+        "Empresa": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string",
+                    "example": "Nc SoftWate"
+                },
+                "slogan": {
+                    "type": "string",
+                    "example": "NC"
+                },
+                "nuit": {
+                    "type": "integer",
+                    "example": "123456789"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "info@ncnegocios.co.mz"
+                },
+                "contacto1": {
+                    "type": "integer",
+                    "example": "123456789"
+                },
+                "contacto2": {
+                    "type": "integer",
+                    "example": "123456789"
+                },
+                "endereco1": {
+                    "type": "string",
+                    "example": "AV. Pandora N.245"
+                },
+                "endereco2": {
+                    "type": "string",
+                    "example": "AV. Pandora N.245"
+                },
+                "logotipo": {
+                    "type": "string",
+                    "example": ""
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "nome": {
+                    "type": "string",
+                    "example": "Xiaomi"
+                },
+                "apelido": {
+                    "type": "string",
+                    "example": "Redmi"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "teste@smail.com"
+                },
+                "contacto1": {
+                    "type": "string",
+                    "example": "123456789"
+                },
+                "contacto2": {
+                    "type": "string",
+                    "example": "-"
+                },
+                "imagem": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "$2a$10$cm/vgLrtOqD.Wb8pGt9u9u9US.iWKzFonT4jWgsrOjtUKOPj/q9TK"
+                },
+                "estado": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "empresa": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "data_added": {
+                    "type": "date",
+                    "example": "2021-07-13 18:17:58"
+                },
+                "data_updated": {
+                    "type": "date",
+                    "example": "2021-07-13 18:17:58"
+                },
+                "usuario_added": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                },
+                "usuario_updated": {
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
+                }
+            }
+        },
+        "Auth": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "clesia@yahoo.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456789"
+                }
+            }
+        },
+        "Cliente": {
+            "type": "object",
+            "properties": {
+                "nome": {
+                    "type": "string",
+                    "example": "Clesia Roberto"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "clesia@hotmail.com"
+                },
+                "contacto1": {
+                    "type": "string",
+                    "example": "258741369"
+                },
+                "contacto2": {
+                    "type": "string",
+                    "example": "254786369"
+                },
+                "nuit": {
+                    "type": "string",
+                    "example": "254789631"
+                },
+                "endereco": {
+                    "type": "string",
+                    "example": "Matola"
+                },
+                "endereco2": {
+                    "type": "string",
+                    "example": "Matola"
+                },
+                "empresa": {
+                    "type": "intenger",
+                    "example": 1
+                }
+            }
+        }
+    }
+}

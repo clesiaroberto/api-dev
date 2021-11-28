@@ -1,0 +1,17 @@
+on:
+    push:
+        branches: [ production ]
+jobs:
+    build:
+        # The type of runner that the job will run on
+        name: Deploy
+        runs-on: ubuntu-latest
+        steps:
+          - name: Deploying project on production enviroment
+            uses: appleboy/ssh-action@master
+            with:
+                host: ${{ secrets.HOSTNAME }}
+                username: ${{ secrets.USERNAME }}
+                password: ${{ secrets.PASSWORD }}
+                port: ${{ secrets.PORT }}
+                script: cd /var/nc_projects/api-faturacao/ && sudo -S <<< "${{ secrets.PASSWORD }}" git pull https://ncsoftwarehouse:${{ secrets.DEPLOY_KEY }}@github.com/NC-SOFTWARE-HOUSE/api-faturacao.git main && sudo -S <<< "${{ secrets.PASSWORD }}" bash deploy.sh
